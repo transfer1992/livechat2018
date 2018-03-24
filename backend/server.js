@@ -34,14 +34,15 @@ var inquirySchema = new Schema({
 const Inquiry = mongoose.model('inquiry', inquirySchema);
 
 addNewInquiry = function (data) {
+  tmpConsultantId = 0;
   tmpInquiry = {
     email: data.email,
     name: data.name,
-    consultantId: data.consultantId,
+    consultantId: tmpConsultantId,
     category: data.category,
     message: data.message,
     date: Date.now(),
-    status: data.status
+    status: 'open'
   }
 
   new Inquiry(tmpInquiry)

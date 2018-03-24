@@ -25,9 +25,10 @@ const categories = [
   "inne"
 ]
 
-const person = [
-
-]
+const person = {
+  name: "Maciej Maciek",
+  email: "maciej.maciek@dżimejl.kom"
+}
 
 
 class App extends Component {
@@ -79,7 +80,7 @@ class App extends Component {
         this.setState({
           chosenCategory: categories[tmpIndex]
         }, () => {
-          this.sythesizeSpeech(`Wybrano kategorię ${transcript.toLowerCase()}. Podaj treść zapytania. Aby zakończyć i wysłać zapytanie, zrób krótką pauzę, a następnie powiedz "koniec treści".`, this.speechReco.startRecognition);
+          this.sythesizeSpeech(`Wybrano kategorię ${transcript.toLowerCase()}. Podaj treść zapytania. Aby zakończyć i wysłać zapytanie, powiedz "koniec treści".`, this.speechReco.startRecognition);
         });
       } else {
         this.speechReco.stopRecognition();
@@ -88,7 +89,15 @@ class App extends Component {
     } else {  //wprowadzamy treść zapytania
       if (transcript.toLowerCase() === "koniec treści") {
         this.speechReco.stopRecognition();
-        socket.emit('addNewInquiry', {});
+
+        let tmpInquiry = {
+          email: person.email,
+          name: person.name,
+          category: this.state.chosenCategory,
+          message: this.state.inquiryText
+        }
+
+        socket.emit('addNewInquiry', tmpInquiry);
         this.sythesizeSpeech(`Twoje zapytanie zostało wysłane. Dziekujemy!`, () => {
           this.setState({
             isModalOpened: false,
@@ -126,7 +135,8 @@ class App extends Component {
             isModalOpened={this.state.isModalOpened} 
             proceedData={this.proceedData}
             problemDescriptionChange={this.problemDescriptionChange}
-            problemDescription={this.state.inquiryText}/>
+            problemDescription={this.state.inquiryText}
+            personData={person}/>
             <div className="App">
               <Col xs={12}>
                 <Row center="xs">

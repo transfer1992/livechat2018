@@ -8,19 +8,19 @@
             "type": "node",
             "request": "launch",
             "name": "1. Backend",
-            "program": "${workspaceFolder}/backend/index.js"
+            "program": "${workspaceFolder}/backend/server.js"
         },
         {
-          "name": "2. Chrome",
-          "type": "chrome",
-          "request": "launch",
-          "url": "http://localhost:3000",
-          "webRoot": "${workspaceFolder}/frontend/src",
-          "userDataDir": "${workspaceFolder}/.vscode/chrome",
-          "sourceMaps": true,
-          "sourceMapPathOverrides": {
-            "webpack:///src/*": "${webRoot}/*"
-          }
+            "name": "2. Chrome",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/frontend/src",
+            "userDataDir": "${workspaceFolder}/.vscode/chrome",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "webpack:///src/*": "${webRoot}/*"
+            }
         }
     ]
 }

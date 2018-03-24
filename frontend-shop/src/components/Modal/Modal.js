@@ -18,7 +18,7 @@ const ModalRep = props => {
     return (
         <Modal open={props.isModalOpened}>
             <Modal.Header>
-                <div className="avatar"><div className="name-email"><p>Maciej Maciek</p> <p>maciej.maciek@gmail.com</p></div><img className="avatar-img" src={av} width={50} height={50}/></div>
+                <div className="avatar"><div className="name-email"><p>{props.personData.name}</p> <p>{props.personData.email}</p></div><img className="avatar-img" src={av} width={50} height={50}/></div>
             </Modal.Header>
             <Modal.Content image scrolling>
                 <Modal.Description>
