@@ -27,3 +27,19 @@
 .text-area-div{
     margin-top: 30px;
 }
+
+.avatar{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 30px;
+}
+
+.avatar-img{
+    margin-left: 10px;
+}
+
+.name-email{
+    display: block;
+    text-align: center;
+}

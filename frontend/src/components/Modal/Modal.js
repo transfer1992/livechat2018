@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Header, Icon, Modal, Checkbox, Form, TextArea, Feed } from 'semantic-ui-react';
 import './Modal.css';
+import av from'../../img/av.png';
 
 const categories = [
     "zapytanie o produkt",
@@ -17,11 +18,7 @@ const ModalRep = props => {
     return (
         <Modal open={props.isModalOpened}>
             <Modal.Header>
-                <Feed>
-                    <Feed.Label>
-                        <img src='/assets/images/avatar/small/elliot.jpg' />
-                    </Feed.Label>
-                </Feed>
+                <div className="avatar"><div className="name-email"><p>Maciej Maciek</p> <p>maciej.maciek@gmail.com</p></div><img className="avatar-img" src={av} width={50} height={50}/></div>
             </Modal.Header>
             <Modal.Content image scrolling>
                 <Modal.Description>

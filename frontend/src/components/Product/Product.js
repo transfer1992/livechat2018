@@ -16,8 +16,8 @@ const Product = props => {
             <div className="product">
                 <div className="gallery">
                     {/* <img className="left-img" src={imgLeft} width={300} height={450}/> */}
-                    <img src={img1} width={400} height={640} />
-                    <img className="right-img" src={imgRight} width={400} height={640} />
+                    <img className="img" src={img1} width={400} height={640} />
+                    <img className="right-img img" src={imgRight} width={400} height={640} />
                 </div>
                 <div className="desc-div">
                     <div className="description">
