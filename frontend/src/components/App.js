@@ -3,6 +3,14 @@ import 'react-flexbox-grid/dist/react-flexbox-grid.css';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import './App.css';
 import Navbar from './Navbar/Navbar';
+import io from 'socket.io-client';
+
+var socket = io('http://localhost:4000/customer');
+
+socket.on('greeting', (data) => {
+  console.log(data);
+  socket.emit('addNewInquiry', { my: 'data' });
+});
 
 class App extends Component {
   render() {
