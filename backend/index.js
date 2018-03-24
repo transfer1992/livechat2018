@@ -36,9 +36,18 @@ customers.on('connection', (socket) => {
   socket.on('addNewInquiry', function (data) {
     console.log(data);
   });
-});
+
+
 
 operators.on('connection', (socket) => {
   console.log('operator connected');
   socket.emit('gretting', { hello: 'operator' });
+});
+
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'Database connection error:'));
+
+db.once('open', () => {
+   console.log("Database is connected!");
 });
