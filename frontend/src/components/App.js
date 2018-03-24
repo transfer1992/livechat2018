@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import 'react-flexbox-grid/dist/react-flexbox-grid.css';
 import { Grid, Row, Col } from 'react-flexbox-grid';
+import 'font-awesome/css/font-awesome.min.css';
 import './App.css';
 import Navbar from './Navbar/Navbar';
 import Product from './Product/Product';
 import Issue from './Issue/Issue';
 import io from 'socket.io-client';
 import SpeechRecognition from './SpeechRecognition';
+import ModalRep from './Modal/Modal';
+import 'semantic-ui-css/semantic.min.css';
 
 const socket = io('http://localhost:4000/customer');
 
@@ -42,6 +45,14 @@ class App extends Component {
     this.speechReco.startRecognition();
   }
 
+  handleCheckboxChanges = (e, {value}) => {
+    this.setState({chosenCategory: value});
+  }
+
+  problemDescriptionChange = (e, {value}) => {
+    this.setState({inquiryText: value})
+  }
+
   sythesizeSpeech = (text, onEndCallback) => {
     let msg = new SpeechSynthesisUtterance();
     msg.text = text;
@@ -66,7 +77,7 @@ class App extends Component {
       if (tmpIndex !== -1) {
         this.speechReco.stopRecognition();
         this.setState({
-          chosenCategory: tmpIndex
+          chosenCategory: categories[tmpIndex]
         }, () => {
           this.sythesizeSpeech(`Wybrano kategorię ${transcript.toLowerCase()}. Podaj treść zapytania. Aby zakończyć i wysłać zapytanie, zrób krótką pauzę, a następnie powiedz "koniec treści".`, this.speechReco.startRecognition);
         });
@@ -95,19 +106,34 @@ class App extends Component {
     }
   }
 
+
+  openModalOnCLick = e => {
+    this.setState({isModalOpened: true});
+  }
+
+  proceedData = e => {
+    this.setState({isModalOpened: false});
+  }
+
   render() {
     return (
       <Grid fluid>
         <Row>
           <Col xs={12} md={12}>
+            <ModalRep 
+            checked={this.state.chosenCategory} 
+            handleCheckboxChanges={this.handleCheckboxChanges} 
+            isModalOpened={this.state.isModalOpened} 
+            proceedData={this.proceedData}
+            problemDescriptionChange={this.problemDescriptionChange}
+            problemDescription={this.state.inquiryText}/>
             <div className="App">
-              <Issue />
               <Col xs={12}>
                 <Row center="xs">
                   <Navbar />
                 </Row>
-                <Row center="xs">
-                  <Product />
+                <Row>
+                  <Product openModalOnCLick={this.openModalOnCLick}/>
                 </Row>
               </Col>
             </div>

@@ -2,18 +2,28 @@
     position: fixed;
     bottom:20px;
     right: 20px;
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 90px;
     background: #1E1C1C;
-    border-radius: 50%;
+    border-radius: 5px;
     text-align: center;
     transition: all .3s ease-in-out;
+    color: #fafafa;
+    font-size: 30px;
+
+}
+
+.mam-pytanie{
+
 }
 
 .report-btn{
 
 }
 
+.question-icon{
+    color: #fafafa 
+}
   
 .report-area:hover {
     border-radius: 5px;
