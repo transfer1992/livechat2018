@@ -49,9 +49,9 @@ addNewInquiry = function (data) {
   new Inquiry(tmpInquiry)
     .save()
     .then(
-      () => {
+      (inquiry) => {
         console.log('Added new inquiry');
-        operators.emit('newInquiryAdded', tmpInquiry);
+        operators.emit('newInquiryAdded', inquiry);
       })
     .catch((e) => {
       console.log(`error: ${e}`);
@@ -73,7 +73,8 @@ server.listen(port, () => {
   console.log(`Server is running http://127.0.0.1:${port}`);
 });
 
-app.use('/oppanel', express.static(path.join(__dirname, '/oppanel')))
+app.use('/oppanel', express.static(path.join(__dirname, '/oppanel')));
+app.use('/shop', express.static(path.join(__dirname, '/shop')));
 
 app.get('/', (req, res) => {
   res.redirect('/shop/');
@@ -91,7 +92,6 @@ app.get('/oppanel/', (req, res) => {
 
 customers.on('connection', (socket) => {
   console.log('customer connected');
-  socket.emit('greeting', { hello: 'customer' });
   socket.on('addNewInquiry', (data) => {
     addNewInquiry(data);
     console.log(data);
@@ -101,6 +101,5 @@ customers.on('connection', (socket) => {
 operators.on('connection', (socket) => {
   sendAllInquiresToOperator();
   console.log('operator connected');
-  socket.emit('gretting', { hello: 'operator' });
 });
 

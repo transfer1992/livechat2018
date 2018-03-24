@@ -8,38 +8,29 @@ import { Button, Card, Image } from 'semantic-ui-react';
 import av from './img/av.png';
 
 const socket = io('http://192.168.43.56:4000/operator');
-let currentInqueries = [];
-
-socket.on('newInquiryAdded', (data) => {
-  currentInqueries = [...currentInqueries, data]
-  console.log(currentInqueries)
-});
-
-socket.on('currentInqueries', (data) => {
-  currentInqueries = data
-});
-
-const objs = [{
-  "_id": "5ab68f975dbab84f487ea78c",
-  "category": "reklamacja",
-  "consultantId": "0",
-  "date": "2018-03-24T17:48:35.973Z",
-  "email": "maciej.maciek@dżimejl.kom",
-  "message": " Dzień dobry państwu",
-  "name": "Maciej Maciek",
-  "status": "open"
-}, {
-  "_id": "5ab68f975dbab84f487ea78c",
-  "category": "reklamacja",
-  "consultantId": "0",
-  "date": "2018-03-24T17:48:35.973Z",
-  "email": "maciej.maciek@dżimejl.kom",
-  "message": " Dzień dobry państwu",
-  "name": "Maciej Maciek",
-  "status": "open"
-}]
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      currentInqueries: []
+    }
+  }
+
+  componentDidMount() {
+    socket.on('newInquiryAdded', (data) => {
+      this.setState({
+        currentInqueries: [...this.state.currentInqueries, data]
+      });
+      console.log(this.state.currentInqueries)
+    });
+
+    socket.on('currentInqueries', (data) => {
+      this.setState({
+        currentInqueries: data
+      });
+    });
+  }
   render() {
     return (
       <Grid fluid>
@@ -47,7 +38,7 @@ class App extends Component {
           <Col xs={6} md={3}>
             <div>
               <Card.Group>
-                {currentInqueries.map(obj =>
+                {this.state.currentInqueries.map(obj =>
 
                   <Card>
                     <Card.Content>
@@ -57,13 +48,13 @@ class App extends Component {
                         {`(${obj.email})`}
                       </Card.Header>
                       <Card.Meta>
-                      {obj.category}
+                        {obj.category}
                       </Card.Meta>
                       <Card.Description>
                         <div>
-                        <p><strong>Date:</strong> {obj.date}</p>
-                        <p><strong>ID:</strong> {obj._id}</p>
-                        <p>{obj.message}</p>
+                          <p><strong>Date:</strong> {obj.date}</p>
+                          <p><strong>ID:</strong> {obj._id}</p>
+                          <p>{obj.message}</p>
                         </div>
                       </Card.Description>
                     </Card.Content>
@@ -80,7 +71,7 @@ class App extends Component {
           </Col>
         </Row>
       </Grid>
-        )
+    )
   }
 }
 

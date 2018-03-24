@@ -11,7 +11,7 @@ import SpeechRecognition from './SpeechRecognition';
 import ModalRep from './Modal/Modal';
 import 'semantic-ui-css/semantic.min.css';
 
-const socket = io('http://localhost:4000/customer');
+const socket = io('http://192.168.43.56:4000/customer');
 
 socket.on('greeting', (data) => {
   console.log(data);
@@ -117,11 +117,25 @@ class App extends Component {
 
 
   openModalOnCLick = e => {
+    this.speechReco.stopRecognition();
     this.setState({isModalOpened: true});
   }
 
   proceedData = e => {
-    this.setState({isModalOpened: false});
+    let tmpInquiry = {
+      email: person.email,
+      name: person.name,
+      category: this.state.chosenCategory,
+      message: this.state.inquiryText
+    }
+
+    socket.emit('addNewInquiry', tmpInquiry);
+    this.setState({
+      isModalOpened: false,
+      chosenCategory: null,
+      inquiryText: ""
+    });
+    this.speechReco.startRecognition();
   }
 
   render() {

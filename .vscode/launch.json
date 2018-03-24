@@ -15,7 +15,19 @@
             "type": "chrome",
             "request": "launch",
             "url": "http://localhost:3000",
-            "webRoot": "${workspaceRoot}/frontend/src",
+            "webRoot": "${workspaceRoot}/frontend-shop/src",
+            "userDataDir": "${workspaceRoot}/.vscode/chrome",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "webpack:///src/*": "${webRoot}/*"
+            }
+        },
+        {
+            "name": "3. Chrome operator",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceRoot}/frontend-operator/src",
             "userDataDir": "${workspaceRoot}/.vscode/chrome",
             "sourceMaps": true,
             "sourceMapPathOverrides": {

@@ -63,3 +63,5 @@ typings/
 
 backend/oppanel
 backend/shop
+frontend-shop/build/
+frontend-operator/build/
