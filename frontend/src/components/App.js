@@ -6,8 +6,15 @@ import Navbar from './Navbar/Navbar';
 import Product from './Product/Product';
 import Issue from './Issue/Issue';
 import io from 'socket.io-client';
+import SpeechRecognition from './SpeechRecognition';
 
-var socket = io('http://localhost:4000/customer');
+const speechReco = new SpeechRecognition((transcript) => {
+  console.log(`Transkrypt: ${transcript}`);
+});
+
+speechReco.startRecognition();
+
+const socket = io('http://localhost:4000/customer');
 
 socket.on('greeting', (data) => {
   console.log(data);
