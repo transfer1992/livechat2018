@@ -11,11 +11,23 @@
             "program": "${workspaceFolder}/backend/server.js"
         },
         {
-            "name": "2. Chrome",
+            "name": "2. Chrome shop",
             "type": "chrome",
             "request": "launch",
             "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}/frontend/src",
+            "webRoot": "${workspaceFolder}/frontend-shop/src",
+            "userDataDir": "${workspaceFolder}/.vscode/chrome",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "webpack:///src/*": "${webRoot}/*"
+            }
+        },
+        {
+            "name": "3. Chrome operator",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/frontend-operator/src",
             "userDataDir": "${workspaceFolder}/.vscode/chrome",
             "sourceMaps": true,
             "sourceMapPathOverrides": {

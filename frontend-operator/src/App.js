@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:4000/operator');
+const socket = io('http://192.168.43.56:4000/operator');
 
 socket.on('newInquiryAdded', (data) => {
   console.log(data);
@@ -21,4 +21,3 @@ class App extends Component{
 }
 
 export default App;
-

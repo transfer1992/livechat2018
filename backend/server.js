@@ -1,4 +1,5 @@
-const app = require('express')();
+const express = require('express');
+const app = express();
 const mongoose = require('mongoose');
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
@@ -57,7 +58,7 @@ addNewInquiry = function (data) {
     });
 };
 
-setAllInquiresToOperator = function () {
+sendAllInquiresToOperator = function () {
   Inquiry.find({})
     .then((inquiriesArray) => {
       operators.emit("currentInqueries", inquiriesArray);
@@ -71,6 +72,8 @@ const port = 4000;
 server.listen(port, () => {
   console.log(`Server is running http://127.0.0.1:${port}`);
 });
+
+app.use('/oppanel', express.static(path.join(__dirname, '/oppanel')))
 
 app.get('/', (req, res) => {
   res.redirect('/shop/');
@@ -96,7 +99,7 @@ customers.on('connection', (socket) => {
 });
 
 operators.on('connection', (socket) => {
-  getAllInquires();
+  sendAllInquiresToOperator();
   console.log('operator connected');
   socket.emit('gretting', { hello: 'operator' });
 });
