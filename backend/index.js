@@ -22,7 +22,8 @@ db.once('open', () => {
 var Schema = mongoose.Schema;
 
 var inquirySchema = new Schema({
-    clientId: { type: String },
+    email: { type: String },
+    name: {type: String},
     consultantId: { type: String },
     category: { type: String },
     message: { type: String },
@@ -34,7 +35,8 @@ const Inquiry = mongoose.model('inquiry', inquirySchema);
 
 addNewInquiry = function (data) {
     tmpInquiry = {
-        clientId: data.clientId,
+        email: data.email,
+        name: data.name,
         consultantId: data.consultantId,
         category: data.category,
         message: data.message,
@@ -90,6 +92,9 @@ customers.on('connection', (socket) => {
 });
 
 operators.on('connection', (socket) => {
+  getAllInquires();
   console.log('operator connected');
   socket.emit('gretting', { hello: 'operator' });
 });
+
+operators.on('addNewInquiry',(data))
