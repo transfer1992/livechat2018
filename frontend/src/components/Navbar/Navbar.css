@@ -1,0 +1,20 @@
+ul {
+    list-style-type: none;
+    display: inline-flex;
+}
+
+li{
+    font-size: 20px;
+    margin: 16px;
+}
+
+a:-webkit-any-link{
+    color: black;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.line{
+    border-bottom: 1px solid black;
+
+}
