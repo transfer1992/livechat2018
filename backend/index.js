@@ -16,48 +16,51 @@ var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
-    console.log("Database is connected!");
+  console.log("Database is connected!");
 });
 
 var Schema = mongoose.Schema;
 
 var inquirySchema = new Schema({
-    email: { type: String },
-    name: {type: String},
-    consultantId: { type: String },
-    category: { type: String },
-    message: { type: String },
-    date: Date,
-    status: { type: String, enum: ['open', 'closed', 'rejected', 'inProgress'] }
+  email: { type: String },
+  name: { type: String },
+  consultantId: { type: String },
+  category: { type: String },
+  message: { type: String },
+  date: Date,
+  status: { type: String, enum: ['open', 'closed', 'rejected', 'inProgress'] }
 });
 
 const Inquiry = mongoose.model('inquiry', inquirySchema);
 
 addNewInquiry = function (data) {
-    tmpInquiry = {
-        email: data.email,
-        name: data.name,
-        consultantId: data.consultantId,
-        category: data.category,
-        message: data.message,
-        date: Date.now(),
-        status: data.status
-    }
+  tmpInquiry = {
+    email: data.email,
+    name: data.name,
+    consultantId: data.consultantId,
+    category: data.category,
+    message: data.message,
+    date: Date.now(),
+    status: data.status
+  }
 
-    new Inquiry(tmpInquiry)
-        .save()
-        .then()
-        .catch((e) => {
-            console.log(`error: ${e}`);
-        });
+  new Inquiry(tmpInquiry)
+    .save()
+    .then(
+      () => {
+        console.log('Added new inquiry');
+        operators.emit('newInquiryAdded', tmpInquiry);
+      })
+    .catch((e) => {
+      console.log(`error: ${e}`);
+    });
 };
 
-getAllInquires = function () {
-  return Inquiry.find({})
-  .then((inquiriesArray) => {
-
-      return inquiriesArray;
-  })
+setAllInquiresToOperator = function () {
+  Inquiry.find({})
+    .then((inquiriesArray) => {
+      operators.emit("currentInqueries", inquiriesArray);
+    });
 }
 
 /**************SERVER***************/
@@ -97,4 +100,3 @@ operators.on('connection', (socket) => {
   socket.emit('gretting', { hello: 'operator' });
 });
 
-operators.on('addNewInquiry',(data))
