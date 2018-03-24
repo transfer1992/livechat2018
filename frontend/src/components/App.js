@@ -22,6 +22,10 @@ const categories = [
   "inne"
 ]
 
+const person = [
+
+]
+
 
 class App extends Component {
   constructor() {
@@ -36,9 +40,6 @@ class App extends Component {
 
   componentDidMount() {
     this.speechReco.startRecognition();
-    // this.sythesizeSpeech("eloszka", () => {
-    //   console.log("Skończyło gadać");
-    // });
   }
 
   sythesizeSpeech = (text, onEndCallback) => {
@@ -67,7 +68,7 @@ class App extends Component {
         this.setState({
           chosenCategory: tmpIndex
         }, () => {
-          this.sythesizeSpeech(`Wybrano kategorię ${transcript.toLowerCase()}. Podaj treść zapytania. Aby zakończyć, powiedz "koniec treści" po krótkim odstępie.`, this.speechReco.startRecognition);
+          this.sythesizeSpeech(`Wybrano kategorię ${transcript.toLowerCase()}. Podaj treść zapytania. Aby zakończyć i wysłać zapytanie, zrób krótką pauzę, a następnie powiedz "koniec treści".`, this.speechReco.startRecognition);
         });
       } else {
         this.speechReco.stopRecognition();
@@ -76,7 +77,15 @@ class App extends Component {
     } else {  //wprowadzamy treść zapytania
       if (transcript.toLowerCase() === "koniec treści") {
         this.speechReco.stopRecognition();
-        console.log(transcript.toLowerCase());
+        socket.emit('addNewInquiry', {});
+        this.sythesizeSpeech(`Twoje zapytanie zostało wysłane. Dziekujemy!`, () => {
+          this.setState({
+            isModalOpened: false,
+            chosenCategory: null,
+            inquiryText: ""
+          }, this.speechReco.startRecognition);
+        });
+
       } else { //dodajemy treść do zapytania
         let tmpInquiryText = this.state.inquiryText + " " + transcript;
         this.setState({
