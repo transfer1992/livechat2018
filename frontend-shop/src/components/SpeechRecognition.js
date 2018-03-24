@@ -29,7 +29,7 @@ class SpeechRecognition {
   }
 
   stopRecognition = () => {
-    this.recognition.stop();
+    this.recognition.abort();
     this.shouldStopRecognition = true;
   }
 

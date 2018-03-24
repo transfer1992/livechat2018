@@ -7,7 +7,7 @@ import 'semantic-ui-css/semantic.min.css';
 import { Button, Card, Image } from 'semantic-ui-react';
 import av from './img/av.png';
 
-const socket = io('http://192.168.43.56:4000/operator');
+const socket = io('/operator');
 
 class App extends Component {
   constructor() {

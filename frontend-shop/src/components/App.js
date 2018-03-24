@@ -11,12 +11,7 @@ import SpeechRecognition from './SpeechRecognition';
 import ModalRep from './Modal/Modal';
 import 'semantic-ui-css/semantic.min.css';
 
-const socket = io('http://192.168.43.56:4000/customer');
-
-socket.on('greeting', (data) => {
-  console.log(data);
-  socket.emit('addNewInquiry', { my: 'data' });
-});
+const socket = io('/customer');
 
 const categories = [
   "zapytanie o produkt",
@@ -98,7 +93,7 @@ class App extends Component {
         }
 
         socket.emit('addNewInquiry', tmpInquiry);
-        this.sythesizeSpeech(`Twoje zapytanie zostało wysłane. Dziekujemy!`, () => {
+        this.sythesizeSpeech(`Twoje zapytanie zostało wysłane. Dziękujemy!`, () => {
           this.setState({
             isModalOpened: false,
             chosenCategory: null,
@@ -134,8 +129,7 @@ class App extends Component {
       isModalOpened: false,
       chosenCategory: null,
       inquiryText: ""
-    });
-    this.speechReco.startRecognition();
+    }, this.speechReco.startRecognition);
   }
 
   render() {
