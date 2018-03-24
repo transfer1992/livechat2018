@@ -1,6 +1,7 @@
 ul {
     list-style-type: none;
     display: inline-flex;
+    padding: 0;
 }
 
 li{
@@ -16,5 +17,4 @@ a:-webkit-any-link{
 
 .line{
     border-bottom: 1px solid black;
-
 }

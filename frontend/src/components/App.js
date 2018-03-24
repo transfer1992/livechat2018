@@ -3,6 +3,8 @@ import 'react-flexbox-grid/dist/react-flexbox-grid.css';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import './App.css';
 import Navbar from './Navbar/Navbar';
+import Product from './Product/Product';
+import Issue from './Issue/Issue';
 import io from 'socket.io-client';
 
 var socket = io('http://localhost:4000/customer');
@@ -12,6 +14,7 @@ socket.on('greeting', (data) => {
   socket.emit('addNewInquiry', { my: 'data' });
 });
 
+
 class App extends Component {
   render() {
     return (
@@ -19,10 +22,13 @@ class App extends Component {
         <Row>
           <Col xs={12} md={12}>
             <div className="App">
+              <Issue/>
               <Col xs={12}>
                 <Row center="xs">
                   <Navbar />
-                  <div className="line"></div>
+                </Row>
+                <Row center="xs">
+                  <Product />
                 </Row>
               </Col>
             </div>
