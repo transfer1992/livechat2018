@@ -32,14 +32,14 @@ var inquirySchema = new Schema({
 // Compile model from schema
 const Inquiry = mongoose.model('inquiry', inquirySchema);
 
-addNewInquiry = function (clientId, consultantId, category, message, status) {
+addNewInquiry = function (data) {
     tmpInquiry = {
-        clientId: clientId,
-        consultantId: consultantId,
-        category: category,
-        message: message,
+        clientId: data.clientId,
+        consultantId: data.consultantId,
+        category: data.category,
+        message: data.message,
         date: Date.now(),
-        status: status
+        status: data.status
     }
 
     new Inquiry(tmpInquiry)
