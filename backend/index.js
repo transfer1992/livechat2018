@@ -4,18 +4,10 @@ const io = require('socket.io')(server);
 const customers = io.of('/customer');
 const operators = io.of('/operator');
 const path = require('path');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
+const Inquiry = require('./DB/inquiry');
 
-/**************DATABASE***************/
 
-mongoose.connect('mongodb://veronika:password@ds153003.mlab.com:53003/template');
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'Database connection error:'));
-
-db.once('open', () => {
-  console.log("Database is connected!");
-});
 
 /**************SERVER***************/
 
@@ -51,3 +43,5 @@ operators.on('connection', (socket) => {
   console.log('operator connected');
   socket.emit('gretting', { hello: 'operator' });
 });
+
+addNewInquiry("aaA","bb","cc","dd","open");
