@@ -2,6 +2,7 @@ class SpeechRecognition {
   constructor(transcriptReceiveCallback) {
 
     this.sendTranscript = transcriptReceiveCallback;
+    this.shouldStopRecognition = false;
 
     this.BrowserSpeechRecognition =
       window.SpeechRecognition ||
@@ -23,15 +24,19 @@ class SpeechRecognition {
   }
 
   startRecognition = () => {
+    this.shouldStopRecognition = false;
     this.recognition.start();
   }
 
   stopRecognition = () => {
-    this.recognition.abort();
+    this.recognition.stop();
+    this.shouldStopRecognition = true;
   }
 
   handleRecognitionEnd = () => {
-    this.recognition.start();
+    if (!this.shouldStopRecognition) {
+      this.recognition.start();
+    }
   }
 
   handleRecognitionResult = (event) => {
