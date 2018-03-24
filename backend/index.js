@@ -1,12 +1,62 @@
 const app = require('express')();
+const mongoose = require('mongoose');
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const customers = io.of('/customer');
 const operators = io.of('/operator');
 const path = require('path');
-const Inquiry = require('./DB/inquiry');
 
 
+/**************DBA****************/
+
+var mongoDB = 'mongodb://veronika:password@ds153003.mlab.com:53003/template';
+mongoose.connect(mongoDB);
+mongoose.Promise = global.Promise;
+var db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', () => {
+    console.log("Database is connected!");
+});
+
+var Schema = mongoose.Schema;
+
+var inquirySchema = new Schema({
+    clientId: { type: String },
+    consultantId: { type: String },
+    category: { type: String },
+    message: { type: String },
+    date: Date,
+    status: { type: String, enum: ['open', 'closed', 'rejected', 'inProgress'] }
+});
+
+const Inquiry = mongoose.model('inquiry', inquirySchema);
+
+addNewInquiry = function (data) {
+    tmpInquiry = {
+        clientId: data.clientId,
+        consultantId: data.consultantId,
+        category: data.category,
+        message: data.message,
+        date: Date.now(),
+        status: data.status
+    }
+
+    new Inquiry(tmpInquiry)
+        .save()
+        .then()
+        .catch((e) => {
+            console.log(`error: ${e}`);
+        });
+};
+
+getAllInquires = function () {
+  return Inquiry.find({})
+  .then((inquiriesArray) => {
+
+      return inquiriesArray;
+  })
+}
 
 /**************SERVER***************/
 
@@ -34,6 +84,7 @@ customers.on('connection', (socket) => {
   console.log('customer connected');
   socket.emit('greeting', { hello: 'customer' });
   socket.on('addNewInquiry', (data) => {
+    addNewInquiry(data);
     console.log(data);
   });
 });
