@@ -1,5 +1,7 @@
 //Import the mongoose module
 var mongoose = require('mongoose');
+const customers = io.of('/customer');
+const operators = io.of('/operator');
 
 //Set up default mongoose connection
 var mongoDB = 'mongodb://veronika:password@ds153003.mlab.com:53003/template';
@@ -9,17 +11,12 @@ mongoose.Promise = global.Promise;
 //Get the default connection
 var db = mongoose.connection;
 
-//Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 db.once('open', () => {
     console.log("Database is connected!");
 });
 
-
-
-
-//Define a schema
 var Schema = mongoose.Schema;
 
 var inquirySchema = new Schema({
@@ -35,10 +32,6 @@ var inquirySchema = new Schema({
 // Compile model from schema
 const Inquiry = mongoose.model('inquiry', inquirySchema);
 
-
-
-
-
 addNewInquiry = function (clientId, consultantId, category, message, status) {
     tmpInquiry = {
         clientId: clientId,
@@ -51,24 +44,38 @@ addNewInquiry = function (clientId, consultantId, category, message, status) {
 
     new Inquiry(tmpInquiry)
         .save()
-        .then((inquiry) => {
-            console.log(inquiry);
-        })
+        .then()
         .catch((e) => {
-            console.log(e);
+            console.log(`error: ${e}`);
         });
 };
 
-addNewInquiry("aaA", "bb", "cdc", "dd", "open");
+getAllInquires = function () {
+    return Inquiry.find({})
+    .then((inquiriesArray) => {
 
-setTimeout(() => {
-    Inquiry.find({})
-    .then((ideas) => {
-        console.log(ideas);
-    });
-}, 3000);
+        return inquiriesArray;
+    })
+}
 
+getInquireById = function (id) {
+    Inquiry.find({_id : id})
+    .then((inquiry) => {
+        return inquiry;
+    })
+}
 
+getInquiresByConsultandId = function (consultantId) {
+    Inquiry.find({consultantId : consultantId})
+    .then((inquiry) => {
+        console.log(inquiry)
+        return inquiry;
+    })
+}
+
+getInquireById("5ab6746605de087b495d0c64");
+
+getInquiresByConsultandId("dupa");
 
 
 module.exports = Inquiry;
