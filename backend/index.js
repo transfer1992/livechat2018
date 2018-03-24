@@ -4,7 +4,6 @@ const io = require('socket.io')(server);
 const customers = io.of('/customer');
 const operators = io.of('/operator');
 const path = require('path');
-// const mongoose = require('mongoose');
 const Inquiry = require('./DB/inquiry');
 
 
@@ -43,5 +42,3 @@ operators.on('connection', (socket) => {
   console.log('operator connected');
   socket.emit('gretting', { hello: 'operator' });
 });
-
-addNewInquiry("aaA","bb","cc","dd","open");
